@@ -1,0 +1,25 @@
+%div.woodchuck-summary
+  %div.container
+    %div.row
+      %div.col-sm-9
+        %div.panel.panel-default
+          %div.panel-heading
+            %h3
+              Log Summary
+          %div.panel-body#summary
+            = render 'logs/log_container'
+      %div.col-sm-3
+        %div.panel-group#logs-rollup
+          - @logs.each do |log_source, logs|
+            %div.panel.panel-default
+              %div.panel-body
+                %table.table.table-condensed
+                  %thead
+                    %th{:colspan => 2}
+                      %a{'data-toggle' => 'collapse', 'data-parent' => '#logs-rollup', 'href' => "##{log_source}"}= log_source
+                  %tbody{:id => log_source}
+                    - logs.each do |log|
+                      %tr
+                        %td.col-md-1= '*'
+                        %td.col-md-11
+                          %a{:href => log_url(log.id)}= log.path

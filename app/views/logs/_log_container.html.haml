@@ -1,0 +1,17 @@
+%a{'data-toggle' => 'collapse', 'data-parent' => '#summary', 'href' => '#search-box'}
+  %span.glyphicon.glyphicon-search
+%div#search-box{:class => @current_terms ? 'collapse in' : 'collapse'}
+  %div.well.well-sm
+    %form.row.form{:role => 'form'}
+      %div.form-group.col-sm-4
+        %label.sr-only{:for => 'search-terms'}= 'Search Terms'
+        %input.form-control#search-terms{:type => 'text', :placeholder => 'Search Terms', :name => 'search[terms]', :value => @current_terms}
+      %div.form-group.col-sm-2
+      %div.form-group.date.timepicker.col-sm-2
+        %label.sr-only{:for => 'search-start'}= 'Start Time'
+        %input.form-control{:type => 'text', :placeholder => 'Start Time'}
+      %div.form-group.date.timepicker.col-sm-2
+        %label.sr-only{:for => 'search-start'}= 'Start Time'
+        %input.form-control{:type => 'text', :placeholder => 'End Time'}
+      %button.btn.btn-default.col-sm-1{:type => 'submit'}= 'Apply'
+= render 'logs/log_display', :log_entries => @entries
