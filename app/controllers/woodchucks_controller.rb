@@ -1,4 +1,4 @@
-class LogsController < ApplicationController
+class WoodchucksController < ApplicationController
 
   before_filter :setup
   before_filter :apply_filter
