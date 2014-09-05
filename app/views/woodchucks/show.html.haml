@@ -6,7 +6,7 @@
           %div.panel-heading
             %h3= "<#{@log.source}> #{@log.path}"
           %div.panel-body#summary
-            = render 'logs/log_container'
+            = render 'woodchucks/log_container'
       %div.col-sm-3
         %div.panel-group#logs-rollup
           - @logs.each do |log_source, logs|

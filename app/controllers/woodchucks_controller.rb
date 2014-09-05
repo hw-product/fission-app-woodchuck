@@ -52,11 +52,12 @@ class WoodchucksController < ApplicationController
   end
 
   def setup
-    if(Rails.application.config.fission[:config].fetch(:logs, {}).fetch(:restrict, true))
-      @logs = Log.restrict(current_user)
+    if(params[:account_id])
+      @account = current_user.accounts.detect{|a| a.id == params[:account_id].to_i}
     else
-      @logs = Log.dataset
+      @account = current_user.accounts.first
     end
+    @logs = @account.logs_dataset
     if(params[:id])
       @log = @logs.where(:id => params[:id]).first
     end
