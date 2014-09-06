@@ -18,7 +18,7 @@ module FissionApp
         end
       end
 
-      # @return [Fission::Data::Models::Product]
+      # @return [Array<Fission::Data::Models::Product>]
       def fission_product
         [Fission::Data::Models::Product.find_by_internal_name('woodchucks')]
       end
@@ -27,7 +27,7 @@ module FissionApp
       def fission_navigation
         {
           'Woodchucks' => {
-            'Logs' => Rails.routes.url_for(:controller => :woodchucks, :action => :index, :only_path => true)
+            'Logs' => Rails.application.routes.url_for(:controller => :woodchucks, :action => :index, :only_path => true)
           }
         }
       end
