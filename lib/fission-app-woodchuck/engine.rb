@@ -7,7 +7,7 @@ module FissionApp
       config.to_prepare do |config|
         product = Fission::Data::Models::Product.find_or_create(:name => 'Woodchucks')
         feature = Fission::Data::Models::ProductFeature.find_or_create(
-          :name => 'full_access',
+          :name => 'woodchuck_full_access',
           :product_id => product.id
         )
         unless(feature.permissions_dataset.where(:name => 'woodchuck_full_access').count > 0)
