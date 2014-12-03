@@ -52,12 +52,7 @@ class WoodchucksController < ApplicationController
   end
 
   def setup
-    if(params[:account_id])
-      @account = current_user.accounts.detect{|a| a.id == params[:account_id].to_i}
-    else
-      @account = current_user.accounts.first
-    end
-    @logs = @account.logs_dataset
+    @logs = current_user.run_state.current_account.logs_dataset
     if(params[:id])
       @log = @logs.where(:id => params[:id]).first
     end
