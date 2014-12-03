@@ -38,7 +38,7 @@ module FissionApp
 
       def fission_dashboard(*_)
         {
-          :woodchuck_dashboard => 'Woodchucks'
+          :woodchuck_dashboard => {:title => 'Woodchucks', :url => Rails.application.routes.url_for(:controller => :woodchucks, :action => :index, :only_path => true)}
         }
       end
 
