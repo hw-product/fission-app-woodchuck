@@ -8,6 +8,8 @@
               Log Summary
           %div.panel-body#summary
             = render 'woodchucks/log_container'
+            - if content_for?(:pagination)
+              %div.fission-pagination= content_for(:pagination)
       %div.col-sm-3
         %div.panel-group#logs-rollup
           - @logs.each do |log_source, logs|
