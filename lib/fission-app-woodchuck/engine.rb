@@ -28,7 +28,13 @@ module FissionApp
         {
           'Woodchucks' => {
             'Logs' => Rails.application.routes.url_for(:controller => :woodchucks, :action => :index, :only_path => true)
-          }
+          }.with_indifferent_access
+        }.with_indifferent_access
+      end
+
+      def fission_dashboard
+        {
+          :woodchuck_dashboard => 'Woodchucks'
         }
       end
 

@@ -1,0 +1,4 @@
+%div#logs_summary_graph
+:javascript
+  #{graph_generate('logs_summary_graph', :size => {:height => 100}, :line => {:label => {:show => false}}, :data => {:type => 'line', :columns => [['', 1,2,3,4]]})}
+
