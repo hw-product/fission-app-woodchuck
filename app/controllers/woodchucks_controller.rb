@@ -30,7 +30,8 @@ class WoodchucksController < ApplicationController
         @entries = @entries.full_text_search(:entry, terms)
       end
     end
-    @entries = @entries.order(:entry_time.desc)
+    @entries = @entries.order(:entry_time.desc).paginate(page, per_page)
+    enable_pagination_on(@entries)
   end
 
   def format_data
@@ -41,7 +42,7 @@ class WoodchucksController < ApplicationController
       end
     end
     @entries = {}.tap do |entries|
-      @paged_entries = @entries.paginate(params.fetch(:page, 1).to_i, 10)
+      @paged_entries = @entries.all
       @paged_entries.each do |entry|
         time = Time.at(entry.entry_time)
         date = time.strftime('%Y-%m-%d')
