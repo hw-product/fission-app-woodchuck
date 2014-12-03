@@ -19,7 +19,14 @@
           %b= date
 
       - entries.each do |entry|
-        %tr
+        :ruby
+          tags = entry.tags.map(&:name)
+          if(tags.include?('fatal') || tags.include?('error'))
+            label = 'danger'
+          elsif(tags.include?('warn'))
+            label = 'warning'
+          end
+        %tr{:class => label}
           %td= Time.at(entry.entry_time).strftime('%H:%M:%S')
           %td= entry.log.path
           - unless(defined?(disable_source) && disable_source)
@@ -32,6 +39,3 @@
                   link_to(tag_name, 'http://example.com')
                 end.join(', ').html_safe
               %span.glyphicon.glyphicon-tags.popper{'data-container' => 'body', 'data-placement' => 'right', 'data-content' => tags, 'data-title' => 'Tags'}
-      %tr
-        %td{:colspan => 5}
-          %center= will_paginate(@paged_entries)
