@@ -11,10 +11,14 @@ module FissionApp
           :product_id => product.id
         )
         unless(feature.permissions_dataset.where(:name => 'woodchuck_full_access').count > 0)
-          feature.add_permission(
-            :name => 'woodchuck_full_access',
-            :pattern => '/woodchuck.*'
-          )
+          args = {:name => 'woodchuck_full_access', :pattern => '/woodchuck.*'}
+          permission = Fission::Data::Models::Permission.where(args).first
+          unless(permission)
+            permission = Fission::Data::Models::Permission.create(args)
+          end
+          unless(feature.permissions.include?(permission))
+            feature.add_permission(permission)
+          end
         end
       end
 
