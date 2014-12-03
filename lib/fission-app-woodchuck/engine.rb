@@ -24,7 +24,7 @@ module FissionApp
       end
 
       # @return [Hash]
-      def fission_navigation
+      def fission_navigation(*_)
         {
           'Woodchucks' => {
             'Logs' => Rails.application.routes.url_for(:controller => :woodchucks, :action => :index, :only_path => true)
@@ -32,7 +32,7 @@ module FissionApp
         }.with_indifferent_access
       end
 
-      def fission_dashboard
+      def fission_dashboard(*_)
         {
           :woodchuck_dashboard => 'Woodchucks'
         }
