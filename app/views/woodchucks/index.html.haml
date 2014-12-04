@@ -1,7 +1,7 @@
 %div.woodchuck-summary
   %div.container.container-padding
     %div.row
-      %div.col-sm-9
+      %div.col-md-9
         %div.panel.panel-default
           %div.panel-heading
             %h3
@@ -10,18 +10,10 @@
             = render 'woodchucks/log_container'
             - if content_for?(:pagination)
               %div.fission-pagination= content_for(:pagination)
-      %div.col-sm-3
-        %div.panel-group#logs-rollup
-          - @logs.each do |log_source, logs|
-            %div.panel.panel-default
-              %div.panel-body
-                %table.table.table-condensed
-                  %thead
-                    %th{:colspan => 2}
-                      %a{'data-toggle' => 'collapse', 'data-parent' => '#logs-rollup', 'href' => "##{log_source}"}= log_source
-                  %tbody{:id => log_source}
-                    - logs.each do |log|
-                      %tr
-                        %td.col-md-1= '*'
-                        %td.col-md-11
-                          %a{:href => woodchuck_path(log.id)}= log.path
+      %div.col-md-3
+        - @logs.each do |log_source, logs|
+          %ul.list-group
+            %li.list-group-item.disabled= log_source
+            - logs.each do |log|
+              %li.list-group-item= link_to(log.path, woodchuck_path(log))
+          %br
