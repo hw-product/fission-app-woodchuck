@@ -1,0 +1,6 @@
+- @logs.each do |log_source, logs|
+  %ul.list-group
+    %li.list-group-item.disabled= log_source
+    - logs.each do |log|
+      %li.list-group-item= link_to(log.path, woodchuck_path(log))
+  %br
