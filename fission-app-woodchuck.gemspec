@@ -9,5 +9,5 @@ Gem::Specification.new do |s|
   s.homepage = 'http://github.com/heavywater/fission-app-woodchuck'
   s.description = 'Fission application woodchuck integration'
   s.require_path = 'lib'
-  s.files = Dir['**/*']
+  s.files = Dir['{lib,app,config}/**/**/*'] + %w(fission-app-woodchuck.gemspec CHANGELOG.md)
 end
