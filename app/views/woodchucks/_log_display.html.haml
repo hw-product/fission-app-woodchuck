@@ -1,41 +1,37 @@
-%table.table.table-hover#log-display
-  %thead
-    %tr
-      %th.col-md-1
-        Timestamp
-      %th.col-md-1
-        Path
-      - unless(defined?(disable_source) && disable_source)
-        %th.col-md-1
-          Source
-      %th.col-md-7
-        Entry
-      %th.col-md-1
-        Meta
-  %tbody
-    - log_entries.each do |date, entries|
-      %tr
-        %th{:colspan => 5}
-          %b= date
+:ruby
+  header_classes = ['col-md-1', 'col-md-1', 'col-md-7', 'col-md-1']
+  header_data    = ['Timestamp', 'Path', 'Entry', 'Meta']
+  unless(defined?(disable_source) && disable_source)
+    header_classes.insert(2, 'col-md-1')
+    header_data.insert(2, 'Source')
+  end
 
-      - entries.each do |entry|
-        :ruby
-          tags = entry.tags.map(&:name)
-          if(tags.include?('fatal') || tags.include?('error'))
-            label = 'danger'
-          elsif(tags.include?('warn'))
-            label = 'warning'
-          end
-        %tr{:class => label}
-          %td= Time.at(entry.entry_time).strftime('%H:%M:%S')
-          %td= entry.log.path
-          - unless(defined?(disable_source) && disable_source)
-            %td= entry.log.source
-          %td= entry.entry
-          %td
-            - unless entry.tags.empty?
-              :ruby
-                tags = entry.tags.map(&:name).sort.map do |tag_name|
-                  link_to(tag_name, 'http://example.com')
-                end.join(', ').html_safe
-              %span.glyphicon.glyphicon-tags.popper{'data-container' => 'body', 'data-placement' => 'right', 'data-content' => tags, 'data-title' => 'Tags'}
+- content_for(:table_body) do
+  - log_entries.each do |date, entries|
+    %tr
+      %th{:colspan => 5}
+        %b= date
+
+    - entries.each do |entry|
+      :ruby
+        tags = entry.tags.map(&:name)
+        if(tags.include?('fatal') || tags.include?('error'))
+          label = 'danger'
+        elsif(tags.include?('warn'))
+          label = 'warning'
+        end
+      %tr{:class => label}
+        %td= Time.at(entry.entry_time).strftime('%H:%M:%S')
+        %td= entry.log.path
+        - unless(defined?(disable_source) && disable_source)
+          %td= entry.log.source
+        %td= entry.entry
+        %td
+          - unless entry.tags.empty?
+            :ruby
+              tags = entry.tags.map(&:name).sort.map do |tag_name|
+                link_to(tag_name, 'http://example.com')
+              end.join(', ').html_safe
+            %span.glyphicon.glyphicon-tags.popper{'data-container' => 'body', 'data-placement' => 'right', 'data-content' => tags, 'data-title' => 'Tags'}
+
+= render(:partial => 'layouts/table', :locals => {:header_classes => header_classes, :header_data => header_data})
