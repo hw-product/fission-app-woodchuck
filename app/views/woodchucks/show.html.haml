@@ -1,11 +1,15 @@
-%div.woodchuck-show
-  %div.container.container-padding
-    %div.row
-      %div.col-sm-9
-        %div.panel.panel-default
-          %div.panel-heading
-            %h3= "<#{@log.source}> #{@log.path}"
-          %div.panel-body#summary
-            = render 'woodchucks/log_container'
-      %div.col-sm-3
-        = render 'woodchucks/log_list'
+- content_for(:heading) do
+  %h3= "<#{@log.source}> #{@log.path}"
+
+- content_for(:container) do
+  %div.row
+    %div.col-sm-9
+      = render(:partial => 'layouts/panel',         |
+               :locals => {                         |
+                 :heading => content_for(:heading), |
+                 :body_id => '#summary',            |
+                 :panel_content => render( 'woodchucks/log_container') })
+    %div.col-sm-3
+      = render('woodchucks/log_list')
+
+= render(:partial => 'layouts/container')

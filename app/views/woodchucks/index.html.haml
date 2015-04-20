@@ -1,14 +1,16 @@
-%div.woodchuck-summary
-  %div.container.container-padding
-    %div.row
-      %div.col-md-9
-        %div.panel.panel-default
-          %div.panel-heading
-            %h3
-              Log Summary
-          %div.panel-body#summary
-            = render 'woodchucks/log_container'
-            - if content_for?(:pagination)
-              %div.fission-pagination= content_for(:pagination)
-      %div.col-md-3
-        = render 'woodchucks/log_list'
+- content_for(:heading) do
+  %h3= 'Log Summary'
+
+- content_for(:panel) do
+  = render 'woodchucks/log_container'
+  - if content_for?(:pagination)
+    %div.fission-pagination= content_for(:pagination)
+
+- content_for(:container) do
+  %div.row
+    %div.col-md-9
+      = render(:partial => 'layouts/panel', :locals => { :heading => content_for(:heading) })
+    %div.col-md-3
+      = render 'woodchucks/log_list'
+
+= render(:partial => 'layouts/container')
