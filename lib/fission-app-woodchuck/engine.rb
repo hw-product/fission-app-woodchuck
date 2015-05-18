@@ -7,18 +7,15 @@ module FissionApp
       config.to_prepare do |config|
         product = Fission::Data::Models::Product.find_or_create(:name => 'Woodchucks')
         feature = Fission::Data::Models::ProductFeature.find_or_create(
-          :name => 'woodchuck_full_access',
+          :name => 'View System Logs',
           :product_id => product.id
         )
-        unless(feature.permissions_dataset.where(:name => 'woodchuck_full_access').count > 0)
-          args = {:name => 'woodchuck_full_access', :pattern => '/woodchuck.*'}
-          permission = Fission::Data::Models::Permission.where(args).first
-          unless(permission)
-            permission = Fission::Data::Models::Permission.create(args)
-          end
-          unless(feature.permissions.include?(permission))
-            feature.add_permission(permission)
-          end
+        permission = Fission::Data::Models::Permission.find_or_create(
+          :name => 'Woodchuck logs view access',
+          :pattern => '/woodchuck.*'
+        )
+        unless(feature.permissions.include?(permission))
+          feature.add_permission(permission)
         end
       end
 
@@ -29,17 +26,20 @@ module FissionApp
 
       # @return [Hash]
       def fission_navigation(*_)
-        {
-          'Woodchucks' => {
-            'Logs' => Rails.application.routes.url_for(:controller => :woodchucks, :action => :index, :only_path => true)
-          }.with_indifferent_access
-        }.with_indifferent_access
+        Smash.new(
+          'Woodchucks' => Smash.new(
+            'Logs' => Rails.application.routes.url_helpers.woodchucks_path
+          )
+        )
       end
 
       def fission_dashboard(*_)
-        {
-          :woodchuck_dashboard => {:title => 'Woodchucks', :url => Rails.application.routes.url_for(:controller => :woodchucks, :action => :index, :only_path => true)}
-        }
+        Smash.new(
+          :woodchuck_dashboard => Smash.new(
+            :title => 'Woodchucks',
+            :url => Rails.application.routes.url_helpers.woodchucks_path
+          )
+        )
       end
 
     end
